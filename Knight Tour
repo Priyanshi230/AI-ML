@@ -1,0 +1,83 @@
+package javaclass;
+
+public class knightTour {
+   static int N = 8;
+	static boolean knightpath(){
+		int array [][] = new int[N][N];
+		for(int i =0;i<N;i++) {
+			for(int j =0;j<N;j++) {
+				array[i][j] = -1;
+			}
+		}
+		
+		int xpositions[] =  { 2, 1, -1, -2, -2, -1, 1, 2 };
+		int ypositions[] =  { 1, 2, 2, 1, -1, -2, -2, -1 };
+		 
+		array[0][0] =0;
+		
+		
+		if(!allpath(0,0,1,array,xpositions,ypositions)) {
+			System.out.println("Solution does not Exist");
+			return false;
+		}
+		else {
+			printanswer(array);
+			return true;
+		}
+				
+		}
+	
+	static boolean allpath(int x,int y,int move,int array[][],int xpositions[],int ypositions[]){
+		
+		int nextmove_X;
+		int nextmove_Y;
+		
+		if(move == N*N)
+			return true;
+		
+		for(int i =0;i<N;i++) {
+			nextmove_X = x +xpositions[i];
+			nextmove_Y = y +ypositions[i];
+			
+			
+			if(isSafe(nextmove_X,nextmove_Y,array)) {
+				array[nextmove_X][nextmove_Y] = move;
+				
+				if(allpath(nextmove_X,nextmove_Y,move+1,array,xpositions,ypositions)) {
+					return true;
+				}
+				else {
+					// backtracking
+					array[nextmove_X][nextmove_Y] = -1;
+				}
+			}
+			
+		}
+		
+		return false;
+	}
+		
+	
+	static boolean isSafe(int x,int y,int array[][]) {
+		if(x >=0 && x< N && y>=0 && y<N && array[x][y] == -1) {
+			return true;
+		}
+		return false;
+	}
+	
+	static void printanswer(int array[][]) {
+		for(int i=0;i<N;i++) {
+			for(int j =0;j<N;j++) {
+				System.out.print(array[i][j] + " ");
+			}
+			System.out.println();
+
+			
+		}
+	}
+	public static void main(String[] args) {
+		knightpath();
+	
+	}
+
+}
